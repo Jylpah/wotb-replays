@@ -146,7 +146,7 @@ class PlayerResultsInfo(BaseMessage, JSONExportable):
 	# /// Credits earned – without special awards and medals and premium account excluded.
 	# #[prost(uint32, tag = "2")]
 	# pub credits_earned: u32,
-	credits : Annotated[uint, Field(2)] = uint(0)
+	credits_base : Annotated[uint, Field(2)] = uint(0)
 
 	# /// Base XP (the total without multipliers).
 	# #[prost(uint32, tag = "3")]
@@ -155,16 +155,16 @@ class PlayerResultsInfo(BaseMessage, JSONExportable):
 
 	# #[prost(uint32, tag = "4")]
 	# pub n_shots: u32,
-	n_shots : Annotated[uint, Field(4)] = uint(0)
+	shots_made : Annotated[uint, Field(4)] = uint(0)
 
 	# #[prost(uint32, tag = "5")]
 	# pub n_hits_dealt: u32,
-	n_hits : Annotated[uint, Field(5)] = uint(0)
+	shots_hit : Annotated[uint, Field(5)] = uint(0)
 
-
+	shots_splash : Annotated[uint, Field(6)] = uint(0)
 	# #[prost(uint32, tag = "7")]
 	# pub n_penetrations_dealt: u32,
-	n_pens : Annotated[uint, Field(7)] = uint(0)
+	shots_pen : Annotated[uint, Field(7)] = uint(0)
 
 	# #[prost(uint32, tag = "8")]
 	# pub damage_dealt: u32,
@@ -179,12 +179,16 @@ class PlayerResultsInfo(BaseMessage, JSONExportable):
 
 	# #[prost(uint32, tag = "12")]
 	# pub n_hits_received: u32,
-
+	hits_received : Annotated[uint, Field(12)] = uint(0)
 	# #[prost(uint32, tag = "13")]
 	# pub n_non_penetrating_hits_received: u32,
+	hits_bounced : Annotated[uint, Field(13)] = uint(0)
 
+	hits_splash : Annotated[uint, Field(14)] = uint(0)
 	# #[prost(uint32, tag = "15")]
 	# pub n_penetrations_received: u32,
+	hits_pen : Annotated[uint, Field(15)] = uint(0)
+
 
 	# #[prost(uint32, tag = "17")]
 	# pub n_enemies_damaged: u32,
@@ -192,6 +196,8 @@ class PlayerResultsInfo(BaseMessage, JSONExportable):
 	# #[prost(uint32, tag = "18")]
 	# pub n_enemies_destroyed: u32,
 
+	distance_travelled 	: Annotated[uint, Field(23)] = uint(0)
+	time_alive 			: Annotated[uint, Field(24)] = uint(0)
 	# #[prost(uint32, tag = "32")]
 	# pub victory_points_earned: u32,
 
@@ -264,7 +270,11 @@ class BattleResults(BaseMessage, JSONExportable):
 	# /// Author's free XP, including premium.
 	# #[prost(uint32, tag = "137")]
 	# pub free_xp: u32,
-	free_xp : Annotated[uint, Field(137)] = uint(0)
+	free_xp 	: Annotated[uint, Field(137)] = uint(0)
+
+	base_xp 	: Annotated[uint, Field(181)] = uint(0)
+
+	credits_base : Annotated[uint, Field(183)] = uint(0)
 
 	# /// Players in the battle.
 	# #[prost(message, repeated, tag = "201")]
