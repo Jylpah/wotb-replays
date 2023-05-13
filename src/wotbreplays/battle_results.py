@@ -112,7 +112,10 @@ class Player(BaseMessage, JSONExportable):
 
 class PlayerResultsInfo(BaseMessage, JSONExportable):
 	# Field = root:301
-	credits_base 		: Annotated[uint, Field(2)] = uint(0)
+	# The field is negative (-2) if the player is auto-destroyed by inactivity
+	hitpoints_left	 	: Annotated[int, Field(1)] = 0
+	# credits are base in PlayerResultsInfo, total in Protagonist
+	credits_base 		: Annotated[int, Field(2)] = 0
 	exp_base 			: Annotated[uint, Field(3)] = uint(0)
 	shots_made 			: Annotated[uint, Field(4)] = uint(0)
 	shots_hit 			: Annotated[uint, Field(5)] = uint(0)
@@ -132,8 +135,8 @@ class PlayerResultsInfo(BaseMessage, JSONExportable):
 
 	distance_travelled 	: Annotated[uint, Field(23)] = uint(0)
 	time_alive			: Annotated[uint, Field(24)] = uint(0)
-
-	SOME_id 			: Annotated[uint, Field(25)] = uint(0)   # field root:302
+	# PlayerResults.result_id of the player that killed the player
+	killed_by_res_id	: Annotated[Optional[uint], Field(25)] = None
 
 	exp_for_damage		: Annotated[uint, Field(29)] = uint(0)
 	exp_for_assist		: Annotated[uint, Field(30)] = uint(0)
@@ -145,6 +148,9 @@ class PlayerResultsInfo(BaseMessage, JSONExportable):
 	team 				: Annotated[uint, Field(102)]
 	tank_id 			: Annotated[uint, Field(103)]
 
+	# 105 <varint> = -1 (18446744073709551615)
+	# 106 <varint> = 5112
+
 	# /// Rating for the Rating Battles.
 	# ///
 	# /// Note, that this is **not** the game client's displayed rating.
@@ -153,10 +159,13 @@ class PlayerResultsInfo(BaseMessage, JSONExportable):
 	# /// The display rating is calculated as: `3000.0 + mm_rating * 10.0`.
 	# #[prost(float, optional, tag = "107")]
 	# pub mm_rating: Option<f32>,
+	mm_rating : Annotated[Optional[float], Field(107)] = None
 
 	# #[prost(uint32, tag = "117")]
 	# pub damage_blocked: u32,
 	damage_blocked 	: Annotated[uint, Field(117)] = uint(0)
+	# 118 <varint> = 1
+	# 119 <varint> = 1
 
 
 class PlayerResults(BaseMessage, JSONExportable):
