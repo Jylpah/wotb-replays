@@ -35,7 +35,7 @@ class Avatar(BaseMessage, JSONExportable):
 
 class Protagonist(BaseMessage, JSONExportable):
 	# Field root:8
-	
+
 	# The field is negative (-2) if the player is auto-destroyed by inactivity
 	hitpoints_left	 	: Annotated[int, Field(1)] = 0
 	# credits are base in PlayerResultsInfo, total in Protagonist
@@ -99,7 +99,9 @@ class PlayerInfo(BaseMessage, JSONExportable):
 
 
 class Player(BaseMessage, JSONExportable):
-	#   /// Player's account ID.
+	# Field = root:201
+
+	#  Player's account ID.
 	# #[prost(uint32, tag = "1")]
 	# pub account_id: u32,
 	account_id : Annotated[uint, Field(1)]
@@ -149,6 +151,8 @@ class PlayerResultsInfo(BaseMessage, JSONExportable):
 	tank_id 			: Annotated[uint, Field(103)]
 
 	# 105 <varint> = -1 (18446744073709551615)
+	# Field is -1 if the player did not die
+
 	# 106 <varint> = 5112
 
 	# /// Rating for the Rating Battles.
@@ -181,6 +185,10 @@ class PlayerResults(BaseMessage, JSONExportable):
 	info : Annotated[PlayerResultsInfo, Field(2)]
 
 
+class Something(BaseMessage, JSONExportable):
+	# No idea what is this field
+	pass
+
 class BattleResults(BaseMessage, JSONExportable):
 	
 	map_id 		: Annotated[int, Field(1)]
@@ -208,6 +216,8 @@ class BattleResults(BaseMessage, JSONExportable):
 
 	players 		: Annotated[list[Player], Field(201)] = list()
 	players_results : Annotated[list[PlayerResults], Field(301)] = list()
+
+	something 		: Annotated[list[Something], Field(302)] = list()
 
 
 	@root_validator(pre=False)
