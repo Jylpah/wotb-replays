@@ -34,7 +34,11 @@ class Avatar(BaseMessage, JSONExportable):
 
 
 class Protagonist(BaseMessage, JSONExportable):
-	hitpoints_left	 	: Annotated[uint, Field(1)]
+	# Field root:8
+	
+	# The field is negative (-2) if the player is auto-destroyed by inactivity
+	hitpoints_left	 	: Annotated[int, Field(1)] = 0
+	# credits are base in PlayerResultsInfo, total in Protagonist
 	credits_total 		: Annotated[int, Field(2)] = 0
 	exp_total 			: Annotated[int, Field(3)] = 0
 	shots_made 			: Annotated[uint, Field(4)] = uint(0)
@@ -56,6 +60,7 @@ class Protagonist(BaseMessage, JSONExportable):
 	distance_travelled 	: Annotated[uint, Field(23)] = uint(0)
 	time_alive			: Annotated[uint, Field(24)] = uint(0)
 
+	killed_by_res_id	: Annotated[Optional[uint], Field(25)] = None
 	# 26 <chunk> = bytes (4)
 	#         0000   C6 03 D3 03
 
@@ -72,7 +77,8 @@ class Protagonist(BaseMessage, JSONExportable):
 	
 	# 105 <varint> = -1 (18446744073709551615)
 	# 106 <varint> = 5112
-	# 117 <varint> = 350
+
+	damage_blocked 	: Annotated[uint, Field(117)] = uint(0)
 	# 119 <varint> = 1
 
 
